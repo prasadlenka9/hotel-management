@@ -5,10 +5,17 @@ import { roleGuard } from './core/guards/role.guard';
 export const routes: Routes = [
 
   {
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/login/login.component')
+        .then(m => m.LoginComponent)
+  },
+
+  {
     path: 'user',
     canActivate: [authGuard],
     loadComponent: () =>
-        import('./user/bookings/bookings.component')
+      import('./user/bookings/bookings.component')
         .then(m => m.BookingsComponent)
   },
 
@@ -22,16 +29,20 @@ export const routes: Routes = [
   },
 
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./auth/login/login.component')
-        .then(m => m.LoginComponent)
-  },
-
-  {
     path: 'unauthorized',
     loadComponent: () =>
       import('./shared/components/unauthorized.component')
         .then(m => m.UnauthorizedComponent)
+  },
+
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
+  {
+    path: '**',
+    redirectTo: 'login'
   }
 ];
